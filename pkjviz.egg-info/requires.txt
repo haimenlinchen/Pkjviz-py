@@ -1,0 +1,8 @@
+PyQt5>=5.15.0
+qtpy>=2.0.0
+qtawesome>=1.0.0
+
+[dev]
+mypy>=0.800
+pytest>=6.0.0
+black>=21.0.0

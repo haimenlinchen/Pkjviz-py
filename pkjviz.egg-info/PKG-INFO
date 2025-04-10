@@ -1,3 +1,19 @@
+Metadata-Version: 2.4
+Name: pkjviz
+Version: 0.1.0
+Summary: Python implementation of Pkjviz
+Author: Author
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: PyQt5>=5.15.0
+Requires-Dist: qtpy>=2.0.0
+Requires-Dist: qtawesome>=1.0.0
+Provides-Extra: dev
+Requires-Dist: mypy>=0.800; extra == "dev"
+Requires-Dist: pytest>=6.0.0; extra == "dev"
+Requires-Dist: black>=21.0.0; extra == "dev"
+Dynamic: requires-python
+
 # Pkjviz-py
 
 Python 实现的 Pkjviz 界面

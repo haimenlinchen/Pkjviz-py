@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1440</width>
-    <height>797</height>
+    <height>793</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -260,14 +260,8 @@
            </property>
            <item>
             <widget class="QLabel" name="deviceListLabel">
-             <property name="minimumSize">
-              <size>
-               <width>300</width>
-               <height>0</height>
-              </size>
-             </property>
              <property name="text">
-              <string>可用设备</string>
+              <string>可用设备列表</string>
              </property>
             </widget>
            </item>
@@ -334,14 +328,14 @@
               <item>
                <widget class="QPushButton" name="refreshButton">
                 <property name="text">
-                 <string>刷新</string>
+                 <string>连接</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="sendPacketButton">
                 <property name="text">
-                 <string>连接</string>
+                 <string>断开</string>
                 </property>
                </widget>
               </item>
@@ -486,7 +480,7 @@
         <item>
          <widget class="QLabel" name="contentLabel">
           <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;内容详情&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;内存详情&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>

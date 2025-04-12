@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1440, 797)
+        MainWindow.resize(1440, 793)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -139,7 +139,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_8.setContentsMargins(0, 4, 0, 0)
         self.deviceListLabel = QLabel(self.deviceListWidget)
         self.deviceListLabel.setObjectName(u"deviceListLabel")
-        self.deviceListLabel.setMinimumSize(QSize(300, 0))
 
         self.verticalLayout_8.addWidget(self.deviceListLabel)
 
@@ -388,7 +387,7 @@ class Ui_MainWindow(object):
         self.envComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"NB-SDK", None))
 
         self.fileExplorerLabel.setText(QCoreApplication.translate("MainWindow", u"\u8d44\u6e90\u7ba1\u7406\u5668", None))
-        self.deviceListLabel.setText(QCoreApplication.translate("MainWindow", u"\u53ef\u7528\u8bbe\u5907", None))
+        self.deviceListLabel.setText(QCoreApplication.translate("MainWindow", u"\u53ef\u7528\u8bbe\u5907\u5217\u8868", None))
 
         __sortingEnabled = self.deviceListView.isSortingEnabled()
         self.deviceListView.setSortingEnabled(False)
@@ -401,8 +400,8 @@ class Ui_MainWindow(object):
         self.deviceListView.setSortingEnabled(__sortingEnabled)
 
         self.selectedDeviceLabel.setText("")
-        self.refreshButton.setText(QCoreApplication.translate("MainWindow", u"\u5237\u65b0", None))
-        self.sendPacketButton.setText(QCoreApplication.translate("MainWindow", u"\u8fde\u63a5", None))
+        self.refreshButton.setText(QCoreApplication.translate("MainWindow", u"\u8fde\u63a5", None))
+        self.sendPacketButton.setText(QCoreApplication.translate("MainWindow", u"\u65ad\u5f00", None))
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"untitled-1.py", None))
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u6587\u4ef61.py", None))
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u6587\u4ef62.py", None))
@@ -413,7 +412,7 @@ class Ui_MainWindow(object):
         self.diagCodeLabel.setText(QCoreApplication.translate("MainWindow", u"DIAG-001", None))
         self.actionLabel.setText(QCoreApplication.translate("MainWindow", u"Action:", None))
         self.diagActionLabel.setText(QCoreApplication.translate("MainWindow", u"\u68c0\u67e5\u7aef\u53e3\u914d\u7f6e\u5e76\u91cd\u542f\u670d\u52a1", None))
-        self.contentLabel.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">\u5185\u5bb9\u8be6\u60c5</p></body></html>", None))
+        self.contentLabel.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\">\u5185\u5b58\u8be6\u60c5</p></body></html>", None))
         self.tableLabel.setText(QCoreApplication.translate("MainWindow", u"\u8868\u540d:", None))
         self.tableNameLabel.setText(QCoreApplication.translate("MainWindow", u"ACL_TABLE", None))
         self.tableDescLabel.setText(QCoreApplication.translate("MainWindow", u"\u8868\u63cf\u8ff0:", None))

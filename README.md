@@ -1,6 +1,6 @@
 # Pkjviz-ui-py
 
-基于PyQt5的Pkjviz可视化界面，提供仿Spyder IDE的界面布局和交互。支持离线和在线两种模式。
+基于PySide6的Pkjviz可视化界面，提供仿Spyder IDE的界面布局和交互。支持离线和在线两种模式。
 
 ## 功能特点
 
@@ -12,13 +12,44 @@
 - 数据包捕获和分析
 - 控制台输出
 
-## 安装依赖
+## 安装方式
+
+### 使用 Poetry（推荐）
+
+本项目使用 Poetry 进行依赖管理和打包，请首先安装 Poetry：
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+然后安装项目依赖：
+
+```bash
+poetry install
+```
+
+详细说明请参考 [Poetry 使用指南](POETRY_GUIDE.md)。
+
+### 使用 pip
 
 ```bash
 pip install -r requirements.txt
 ```
 
 ## 运行程序
+
+### 使用 Poetry
+
+```bash
+# 方法 1: 使用 Poetry 的脚本入口点
+poetry run pkjviz
+
+# 方法 2: 进入 Poetry 虚拟环境
+poetry shell
+pkjviz
+```
+
+### 使用 Python
 
 ```bash
 cd /path/to/Pkjviz-ui-py

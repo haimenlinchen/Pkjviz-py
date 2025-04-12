@@ -15,10 +15,24 @@ pytest-qt = "^3.3.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^6.0.0"
+mypy = "^1.7.0"
+types-PySide6 = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-pkjviz = "src.main:main" 
+pkjviz = "src.main:main"
+check = "run_checks:main"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+strict_optional = true 

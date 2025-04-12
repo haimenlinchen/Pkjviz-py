@@ -169,4 +169,56 @@ class PacketSenderController:
         """发送数据包"""
         # 这里只是示例，实际应用中应该发送真正的数据包
         self.main_window.log_message("发送数据包")
-        self.dialog.accept() 
+        self.dialog.accept()
+    
+    def create_protocol_tree_model(self):
+        """创建协议树模型
+        
+        Returns:
+            QStandardItemModel: 协议树模型
+        """
+        from PySide6.QtGui import QStandardItemModel, QStandardItem
+        
+        model = QStandardItemModel()
+        model.setHorizontalHeaderLabels(["数据包"])
+        
+        # 添加示例数据
+        ethernet_item = QStandardItem("Ethernet")
+        ethernet_item.setEditable(False)
+        
+        # 添加子项
+        source_mac = QStandardItem("源MAC地址: ff:ff:ff:ff:ff:ff")
+        source_mac.setEditable(False)
+        dest_mac = QStandardItem("目的MAC地址: 00:11:22:33:44:55")
+        dest_mac.setEditable(False)
+        type_item = QStandardItem("类型: 0x0800 (IPv4)")
+        type_item.setEditable(False)
+        
+        ethernet_item.appendRow(source_mac)
+        ethernet_item.appendRow(dest_mac)
+        ethernet_item.appendRow(type_item)
+        
+        # 添加IPv4协议
+        ipv4_item = QStandardItem("IPv4")
+        ipv4_item.setEditable(False)
+        
+        # 添加IPv4子项
+        version = QStandardItem("版本: 4")
+        version.setEditable(False)
+        src_ip = QStandardItem("源IP: 192.168.1.1")
+        src_ip.setEditable(False)
+        dst_ip = QStandardItem("目的IP: 192.168.1.2")
+        dst_ip.setEditable(False)
+        protocol = QStandardItem("协议: 17 (UDP)")
+        protocol.setEditable(False)
+        
+        ipv4_item.appendRow(version)
+        ipv4_item.appendRow(src_ip)
+        ipv4_item.appendRow(dst_ip)
+        ipv4_item.appendRow(protocol)
+        
+        # 添加到模型
+        model.appendRow(ethernet_item)
+        model.appendRow(ipv4_item)
+        
+        return model 

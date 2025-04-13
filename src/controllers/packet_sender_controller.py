@@ -169,7 +169,9 @@ class PacketSenderController:
         """发送数据包"""
         # 这里只是示例，实际应用中应该发送真正的数据包
         self.main_window.log_message("发送数据包")
-        self.dialog.accept()
+        # 只有当dialog存在时才尝试关闭它
+        if self.dialog:
+            self.dialog.accept()
     
     def create_protocol_tree_model(self):
         """创建协议树模型

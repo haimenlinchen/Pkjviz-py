@@ -85,6 +85,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.displayButton)
 
+        self.packetToolButton = QPushButton(self.toolBarWidget)
+        self.packetToolButton.setObjectName(u"packetToolButton")
+        self.packetToolButton.setVisible(False)
+
+        self.horizontalLayout.addWidget(self.packetToolButton)
+
         self.horizontalSpacer_2 = QSpacerItem(20, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
@@ -205,6 +211,9 @@ class Ui_MainWindow(object):
         self.tab_3 = QWidget()
         self.tab_3.setObjectName(u"tab_3")
         self.editorTabWidget.addTab(self.tab_3, "")
+        self.registerEditorTab = QWidget()
+        self.registerEditorTab.setObjectName(u"registerEditorTab")
+        self.editorTabWidget.addTab(self.registerEditorTab, "")
         self.editorSplitter.addWidget(self.editorTabWidget)
         self.logSplitter = QSplitter(self.editorSplitter)
         self.logSplitter.setObjectName(u"logSplitter")
@@ -381,6 +390,7 @@ class Ui_MainWindow(object):
         self.offlineButton.setText(QCoreApplication.translate("MainWindow", u"\u79bb\u7ebf", None))
         self.onlineButton.setText(QCoreApplication.translate("MainWindow", u"\u5728\u7ebf", None))
         self.displayButton.setText(QCoreApplication.translate("MainWindow", u"\u6f14\u793a", None))
+        self.packetToolButton.setText(QCoreApplication.translate("MainWindow", u"\u53d1\u5305\u5de5\u5177", None))
         self.envLabel.setText(QCoreApplication.translate("MainWindow", u"\u73af\u5883:", None))
         self.envComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"LT", None))
         self.envComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"NB-Cosim", None))
@@ -405,6 +415,7 @@ class Ui_MainWindow(object):
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"untitled-1.py", None))
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u6587\u4ef61.py", None))
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u6587\u4ef62.py", None))
+        self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.registerEditorTab), QCoreApplication.translate("MainWindow", u"\u5bc4\u5b58\u5668\u7f16\u8f91\u5668", None))
         self.dataBrowserLabel.setText(QCoreApplication.translate("MainWindow", u"\u6570\u636e\u5305\u6355\u83b7", None))
         self.logLabel.setText(QCoreApplication.translate("MainWindow", u"Log\u7f16\u8f91\u5668", None))
         self.diagnosticsLabel.setText(QCoreApplication.translate("MainWindow", u"\u8bca\u65ad\u7ed3\u679c", None))

@@ -84,7 +84,7 @@
        <item>
         <widget class="QPushButton" name="runButton">
          <property name="text">
-          <string>运行</string>
+          <string>渲染</string>
          </property>
         </widget>
        </item>
@@ -358,14 +358,14 @@
               <item>
                <widget class="QPushButton" name="refreshButton">
                 <property name="text">
-                 <string>连接</string>
+                 <string>断开</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="sendPacketButton">
                 <property name="text">
-                 <string>断开</string>
+                 <string>连接</string>
                 </property>
                </widget>
               </item>

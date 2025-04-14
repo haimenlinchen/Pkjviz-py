@@ -23,7 +23,8 @@ from PySide6.QtWidgets import (
     QTreeWidget,
     QTreeWidgetItem,
     QHeaderView,
-    QDialog
+    QDialog,
+    QTabWidget
 )
 from PySide6.QtCore import QDir, Qt
 from PySide6.QtUiTools import QUiLoader
@@ -440,6 +441,7 @@ class PkjvizMainWindow(QMainWindow):
         refresh_button = self.ui.findChild(QPushButton, "refreshButton")
         send_packet_button = self.ui.findChild(QPushButton, "sendPacketButton")
         packet_tool_button = self.ui.findChild(QPushButton, "packetToolButton")
+        register_editor_button = self.ui.findChild(QPushButton, "registerEditorButton")
         
         # 查找其他组件
         env_combo_box = self.ui.findChild(QComboBox, "envComboBox")
@@ -486,6 +488,10 @@ class PkjvizMainWindow(QMainWindow):
         if packet_tool_button:
             packet_tool_button.clicked.connect(self.show_packet_sender)
             
+        # 寄存器编辑器按钮
+        if register_editor_button:
+            register_editor_button.clicked.connect(self.show_register_editor)
+            
     def set_app_mode(self, mode: int) -> None:
         """设置应用模式
 
@@ -507,6 +513,7 @@ class PkjvizMainWindow(QMainWindow):
         online_button = self.ui.findChild(QPushButton, "onlineButton")
         display_button = self.ui.findChild(QPushButton, "displayButton")
         packet_tool_button = self.ui.findChild(QPushButton, "packetToolButton")
+        register_editor_button = self.ui.findChild(QPushButton, "registerEditorButton")
 
         # 重置所有模式按钮状态
         if offline_button:
@@ -516,9 +523,17 @@ class PkjvizMainWindow(QMainWindow):
         if display_button:
             display_button.setEnabled(True)
             
-        # 默认隐藏发包工具按钮
+        # 让发包工具按钮在所有模式下都显示
         if packet_tool_button:
-            packet_tool_button.setVisible(False)
+            packet_tool_button.setVisible(True)
+            # 默认设置为不可点击
+            packet_tool_button.setEnabled(False)
+            
+        # 让寄存器编辑器按钮在所有模式下都显示
+        if register_editor_button:
+            register_editor_button.setVisible(True)
+            # 默认设置为可点击
+            register_editor_button.setEnabled(True)
 
         if mode == MODE_OFFLINE:
             # 离线模式
@@ -550,6 +565,14 @@ class PkjvizMainWindow(QMainWindow):
             if offline_button:
                 offline_button.setEnabled(False)
             
+            # 在离线模式下发包工具按钮不可点击
+            if packet_tool_button:
+                packet_tool_button.setEnabled(False)
+            
+            # 在离线模式下寄存器编辑器按钮可点击
+            if register_editor_button:
+                register_editor_button.setEnabled(True)
+            
             # 隐藏发包工具
             if hasattr(self, "packet_sender_window") and self.packet_sender_window:
                 self.packet_sender_window.hide()
@@ -579,9 +602,9 @@ class PkjvizMainWindow(QMainWindow):
             if data_browser_label:
                 data_browser_label.setVisible(False)
                 
-            # 显示发包工具按钮
+            # 显示发包工具按钮并设置为可点击
             if packet_tool_button:
-                packet_tool_button.setVisible(True)
+                packet_tool_button.setEnabled(True)
             
             # 设置对应按钮状态
             if online_button:
@@ -616,6 +639,14 @@ class PkjvizMainWindow(QMainWindow):
             # 设置按钮状态
             if display_button:
                 display_button.setEnabled(False)
+            
+            # 在演示模式下发包工具按钮不可点击
+            if packet_tool_button:
+                packet_tool_button.setEnabled(False)
+            
+            # 在演示模式下寄存器编辑器按钮不可点击
+            if register_editor_button:
+                register_editor_button.setEnabled(False)
             
             # 隐藏发包工具
             if hasattr(self, "packet_sender_window") and self.packet_sender_window:
@@ -786,6 +817,22 @@ class PkjvizMainWindow(QMainWindow):
         # 将窗口提升到前面
         self.packet_sender_window.raise_()
         self.packet_sender_window.activateWindow()
+
+    def show_register_editor(self) -> None:
+        """显示寄存器编辑器"""
+        # 找到寄存器编辑器标签页
+        editor_tab_widget = self.ui.findChild(QTabWidget, "editorTabWidget")
+        register_editor_tab = self.ui.findChild(QWidget, "registerEditorTab")
+        
+        if editor_tab_widget and register_editor_tab:
+            # 寻找寄存器编辑器的索引
+            for i in range(editor_tab_widget.count()):
+                if editor_tab_widget.widget(i) == register_editor_tab:
+                    # 激活寄存器编辑器标签页
+                    editor_tab_widget.setCurrentIndex(i)
+                    break
+            
+        self.log_message("打开寄存器编辑器")
 
 
 def main() -> None:

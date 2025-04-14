@@ -85,15 +85,23 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout.addWidget(self.displayButton)
 
-        self.packetToolButton = QPushButton(self.toolBarWidget)
-        self.packetToolButton.setObjectName(u"packetToolButton")
-        self.packetToolButton.setVisible(False)
-
-        self.horizontalLayout.addWidget(self.packetToolButton)
-
         self.horizontalSpacer_2 = QSpacerItem(20, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
+
+        self.packetToolButton = QPushButton(self.toolBarWidget)
+        self.packetToolButton.setObjectName(u"packetToolButton")
+
+        self.horizontalLayout.addWidget(self.packetToolButton)
+
+        self.horizontalSpacer_4 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_4)
+
+        self.registerEditorButton = QPushButton(self.toolBarWidget)
+        self.registerEditorButton.setObjectName(u"registerEditorButton")
+
+        self.horizontalLayout.addWidget(self.registerEditorButton)
 
         self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -349,9 +357,9 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.terminalButton)
 
-        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_41 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_41)
 
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_2)
@@ -391,6 +399,7 @@ class Ui_MainWindow(object):
         self.onlineButton.setText(QCoreApplication.translate("MainWindow", u"\u5728\u7ebf", None))
         self.displayButton.setText(QCoreApplication.translate("MainWindow", u"\u6f14\u793a", None))
         self.packetToolButton.setText(QCoreApplication.translate("MainWindow", u"\u53d1\u5305\u5de5\u5177", None))
+        self.registerEditorButton.setText(QCoreApplication.translate("MainWindow", u"\u5bc4\u5b58\u5668\u7f16\u8f91\u5668", None))
         self.envLabel.setText(QCoreApplication.translate("MainWindow", u"\u73af\u5883:", None))
         self.envComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"LT", None))
         self.envComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"NB-Cosim", None))

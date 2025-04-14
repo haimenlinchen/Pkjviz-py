@@ -426,39 +426,6 @@
          </attribute>
         </widget>
        </widget>
-       <widget class="QSplitter" name="logSplitter">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <widget class="QWidget" name="dataBrowserWidget" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <widget class="QLabel" name="dataBrowserLabel">
-            <property name="text">
-             <string>数据包捕获</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QTableView" name="packetCaptureTableView"/>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QWidget" name="logWidget" native="true">
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QLabel" name="logLabel">
-            <property name="text">
-             <string>Log编辑器</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QTableView" name="logTableView"/>
-          </item>
-         </layout>
-        </widget>
-       </widget>
       </widget>
       <widget class="QWidget" name="diagnosticsWidget" native="true">
        <property name="minimumSize">

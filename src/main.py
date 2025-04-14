@@ -34,7 +34,6 @@ from src.models.diagnostic_model import DiagnosticResult
 from src.controllers.diagnostic_controller import DiagnosticController
 from src.models.acl_model import ACLTableModel
 from src.models.device_model import DeviceListModel, Device
-from src.models.packet_model import PacketCaptureModel
 from src.controllers.packet_sender_controller import PacketSenderController
 from src.controllers.login_controller import LoginController
 from src.ui.register_editor import RegisterEditor
@@ -357,9 +356,6 @@ class PkjvizMainWindow(QMainWindow):
         # 设备列表模型
         self.device_model = DeviceListModel(self)
 
-        # 数据包捕获模型
-        self.packet_model = PacketCaptureModel(self)
-
     def init_controllers(self) -> None:
         """初始化控制器"""
         # 诊断结果控制器
@@ -391,11 +387,6 @@ class PkjvizMainWindow(QMainWindow):
         code_editor = self.ui.findChild(QTextEdit, "codeEditor")
         if code_editor:
             code_editor.setPlaceholderText("# 在这里输入Python代码")
-
-        # 设置数据包捕获模型
-        packet_capture_view = self.ui.findChild(QTableView, "packetCaptureTableView")
-        if packet_capture_view:
-            packet_capture_view.setModel(self.packet_model)
 
         # 确保设备相关组件默认隐藏（离线模式）
         device_list_widget = self.ui.findChild(QWidget, "deviceListWidget")
@@ -497,7 +488,6 @@ class PkjvizMainWindow(QMainWindow):
         device_tools_widget = self.ui.findChild(QWidget, "deviceToolsWidget")
         selected_device_label = self.ui.findChild(QLabel, "selectedDeviceLabel")
         device_list_label = self.ui.findChild(QLabel, "deviceListLabel")
-        log_widget = self.ui.findChild(QWidget, "logWidget")
         data_browser_widget = self.ui.findChild(QWidget, "dataBrowserWidget")
         data_browser_label = self.ui.findChild(QLabel, "dataBrowserLabel")
         offline_button = self.ui.findChild(QPushButton, "offlineButton")
@@ -541,16 +531,11 @@ class PkjvizMainWindow(QMainWindow):
             if device_list_label:
                 device_list_label.setVisible(False)
 
-            # 显示Log编辑器
-            if log_widget:
-                log_widget.setVisible(True)
-
             # 设置数据浏览器
             if data_browser_widget:
-                data_browser_widget.setVisible(True)
+                data_browser_widget.setVisible(False)
             if data_browser_label:
-                data_browser_label.setVisible(True)
-                data_browser_label.setText("寄存器数据编辑器")
+                data_browser_label.setVisible(False)
 
             # 设置对应按钮状态
             if offline_button:
@@ -583,16 +568,6 @@ class PkjvizMainWindow(QMainWindow):
             if device_list_label:
                 device_list_label.setVisible(True)
 
-            # 隐藏Log编辑器
-            if log_widget:
-                log_widget.setVisible(False)
-
-            # 在在线模式下不显示数据包捕获
-            if data_browser_widget:
-                data_browser_widget.setVisible(False)
-            if data_browser_label:
-                data_browser_label.setVisible(False)
-                
             # 显示发包工具按钮并设置为可点击
             if packet_tool_button:
                 packet_tool_button.setEnabled(True)
@@ -615,10 +590,6 @@ class PkjvizMainWindow(QMainWindow):
                 selected_device_label.setVisible(False)
             if device_list_label:
                 device_list_label.setVisible(False)
-
-            # 隐藏Log编辑器
-            if log_widget:
-                log_widget.setVisible(False)
 
             # 设置数据浏览器
             if data_browser_widget:

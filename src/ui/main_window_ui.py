@@ -18,9 +18,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QHeaderView,
     QLabel, QListWidget, QListWidgetItem, QMainWindow,
     QPushButton, QSizePolicy, QSpacerItem, QSplitter,
-    QStatusBar, QTabWidget, QTableView, QTextEdit,
-    QTreeView, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
-    QWidget)
+    QStatusBar, QTabWidget, QTextEdit, QTreeView,
+    QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -223,40 +222,6 @@ class Ui_MainWindow(object):
         self.registerEditorTab.setObjectName(u"registerEditorTab")
         self.editorTabWidget.addTab(self.registerEditorTab, "")
         self.editorSplitter.addWidget(self.editorTabWidget)
-        self.logSplitter = QSplitter(self.editorSplitter)
-        self.logSplitter.setObjectName(u"logSplitter")
-        self.logSplitter.setOrientation(Qt.Horizontal)
-        self.dataBrowserWidget = QWidget(self.logSplitter)
-        self.dataBrowserWidget.setObjectName(u"dataBrowserWidget")
-        self.verticalLayout_4 = QVBoxLayout(self.dataBrowserWidget)
-        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.dataBrowserLabel = QLabel(self.dataBrowserWidget)
-        self.dataBrowserLabel.setObjectName(u"dataBrowserLabel")
-
-        self.verticalLayout_4.addWidget(self.dataBrowserLabel)
-
-        self.packetCaptureTableView = QTableView(self.dataBrowserWidget)
-        self.packetCaptureTableView.setObjectName(u"packetCaptureTableView")
-
-        self.verticalLayout_4.addWidget(self.packetCaptureTableView)
-
-        self.logSplitter.addWidget(self.dataBrowserWidget)
-        self.logWidget = QWidget(self.logSplitter)
-        self.logWidget.setObjectName(u"logWidget")
-        self.verticalLayout_5 = QVBoxLayout(self.logWidget)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.logLabel = QLabel(self.logWidget)
-        self.logLabel.setObjectName(u"logLabel")
-
-        self.verticalLayout_5.addWidget(self.logLabel)
-
-        self.logTableView = QTableView(self.logWidget)
-        self.logTableView.setObjectName(u"logTableView")
-
-        self.verticalLayout_5.addWidget(self.logTableView)
-
-        self.logSplitter.addWidget(self.logWidget)
-        self.editorSplitter.addWidget(self.logSplitter)
         self.mainSplitter.addWidget(self.editorSplitter)
         self.diagnosticsWidget = QWidget(self.mainSplitter)
         self.diagnosticsWidget.setObjectName(u"diagnosticsWidget")
@@ -425,8 +390,6 @@ class Ui_MainWindow(object):
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"\u6587\u4ef61.py", None))
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.tab_3), QCoreApplication.translate("MainWindow", u"\u6587\u4ef62.py", None))
         self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.registerEditorTab), QCoreApplication.translate("MainWindow", u"\u5bc4\u5b58\u5668\u7f16\u8f91\u5668", None))
-        self.dataBrowserLabel.setText(QCoreApplication.translate("MainWindow", u"\u6570\u636e\u5305\u6355\u83b7", None))
-        self.logLabel.setText(QCoreApplication.translate("MainWindow", u"Log\u7f16\u8f91\u5668", None))
         self.diagnosticsLabel.setText(QCoreApplication.translate("MainWindow", u"\u8bca\u65ad\u7ed3\u679c", None))
         self.codeLabel.setText(QCoreApplication.translate("MainWindow", u"Code:", None))
         self.diagCodeLabel.setText(QCoreApplication.translate("MainWindow", u"DIAG-001", None))

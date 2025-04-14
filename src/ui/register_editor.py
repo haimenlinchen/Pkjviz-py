@@ -8,7 +8,8 @@ from typing import Optional, List, Dict, Any, Union, cast
 from PySide6.QtWidgets import (
     QWidget, QFileDialog, QMessageBox, QTableView, 
     QLineEdit, QCheckBox, QComboBox, QPushButton,
-    QLabel, QApplication, QAbstractItemView, QHeaderView
+    QLabel, QApplication, QAbstractItemView, QHeaderView,
+    QDialog
 )
 from PySide6.QtCore import Qt, QSortFilterProxyModel, Signal, Slot, QModelIndex
 from PySide6.QtUiTools import QUiLoader
@@ -17,11 +18,15 @@ from src.models.register_model import RegisterData, RegisterTableModel
 from src.controllers.register_controller import RegisterController
 
 
-class RegisterEditor(QWidget):
+class RegisterEditor(QDialog):
     """寄存器编辑器窗口类"""
     
     def __init__(self, parent: Optional[QWidget] = None) -> None:
         super().__init__(parent)
+        
+        # 设置窗口标题和属性
+        self.setWindowTitle("寄存器数据编辑器")
+        self.setMinimumSize(800, 600)
         
         # 加载UI
         loader = QUiLoader()

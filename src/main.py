@@ -397,15 +397,6 @@ class PkjvizMainWindow(QMainWindow):
         if packet_capture_view:
             packet_capture_view.setModel(self.packet_model)
 
-        # 添加寄存器编辑器
-        register_editor_tab = self.ui.findChild(QWidget, "registerEditorTab")
-        if register_editor_tab:
-            register_editor = RegisterEditor(register_editor_tab)
-            layout = QVBoxLayout(register_editor_tab)
-            layout.setContentsMargins(0, 0, 0, 0)
-            layout.addWidget(register_editor)
-            register_editor_tab.setLayout(layout)
-
         # 确保设备相关组件默认隐藏（离线模式）
         device_list_widget = self.ui.findChild(QWidget, "deviceListWidget")
         device_list_view = self.ui.findChild(QListWidget, "deviceListView")
@@ -820,18 +811,9 @@ class PkjvizMainWindow(QMainWindow):
 
     def show_register_editor(self) -> None:
         """显示寄存器编辑器"""
-        # 找到寄存器编辑器标签页
-        editor_tab_widget = self.ui.findChild(QTabWidget, "editorTabWidget")
-        register_editor_tab = self.ui.findChild(QWidget, "registerEditorTab")
-        
-        if editor_tab_widget and register_editor_tab:
-            # 寻找寄存器编辑器的索引
-            for i in range(editor_tab_widget.count()):
-                if editor_tab_widget.widget(i) == register_editor_tab:
-                    # 激活寄存器编辑器标签页
-                    editor_tab_widget.setCurrentIndex(i)
-                    break
-            
+        # 创建并显示寄存器编辑器对话框
+        register_editor = RegisterEditor(self)
+        register_editor.exec()
         self.log_message("打开寄存器编辑器")
 
 

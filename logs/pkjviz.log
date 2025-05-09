@@ -1,0 +1,14 @@
+2025-04-14 15:32:47,275 - pkjviz - INFO - 应用程序初始化完成
+2025-04-14 15:32:47,307 - pkjviz - CRITICAL - 运行应用程序失败: __init__() missing 1 required positional argument: 'main_window'
+2025-04-14 15:36:34,321 - pkjviz - INFO - 应用程序初始化完成
+2025-04-14 15:36:34,348 - pkjviz - CRITICAL - 运行应用程序失败: __init__() missing 1 required positional argument: 'main_window'
+2025-04-14 15:37:07,478 - pkjviz - INFO - 应用程序初始化完成
+2025-04-14 15:37:07,502 - pkjviz - CRITICAL - 运行应用程序失败: __init__() missing 1 required positional argument: 'main_window'
+2025-04-14 15:38:24,663 - pkjviz - INFO - 应用程序初始化完成
+2025-04-14 15:38:24,694 - pkjviz - CRITICAL - 运行应用程序失败: __init__() missing 1 required positional argument: 'main_window'
+2025-04-14 15:38:56,142 - pkjviz - INFO - 应用程序初始化完成
+2025-04-14 15:38:56,168 - pkjviz - CRITICAL - 运行应用程序失败: __init__() missing 1 required positional argument: 'main_window'
+2025-04-14 15:39:28,504 - pkjviz - INFO - 应用程序初始化完成
+2025-04-14 15:39:28,532 - pkjviz - CRITICAL - 运行应用程序失败: __init__() missing 1 required positional argument: 'main_window'
+2025-04-14 15:39:53,164 - pkjviz - INFO - 应用程序初始化完成
+2025-04-14 15:39:53,189 - pkjviz - CRITICAL - 运行应用程序失败: __init__() missing 1 required positional argument: 'main_window'

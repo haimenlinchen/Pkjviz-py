@@ -3,6 +3,8 @@
 
 import sys
 import os
+import datetime
+from typing import Optional
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -24,9 +26,9 @@ from PySide6.QtWidgets import (
     QTreeWidgetItem,
     QHeaderView,
     QDialog,
-    QTabWidget
+    QTabWidget,
 )
-from PySide6.QtCore import QDir, Qt
+from PySide6.QtCore import QDir, Qt, QModelIndex
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtGui import QFont, QStandardItemModel, QStandardItem
 
@@ -52,29 +54,29 @@ MODE_DEMO = 2
 
 class PacketSenderWindow(QDialog):
     """发包工具独立窗口类"""
-    
-    def __init__(self, parent=None, packet_sender_controller=None) -> None:
+
+    def __init__(
+        self,
+        parent: Optional[QWidget] = None,
+        packet_sender_controller: Optional[PacketSenderController] = None,
+    ) -> None:
         super().__init__(parent)
         self.packet_sender_controller = packet_sender_controller
         self.setWindowTitle("发包工具")
         self.setMinimumSize(800, 600)
-        
+
         # 创建布局
         self._create_ui()
-        
+
     def _create_ui(self) -> None:
         """创建UI组件"""
-        # 导入需要的模块
-        from PySide6.QtWidgets import (
-            QWidget, QVBoxLayout, QHBoxLayout, QLabel, QTreeView, 
-            QSplitter, QTextEdit, QPushButton, QTableView, QTreeWidget,
-            QTreeWidgetItem, QHeaderView
-        )
-        
+        # 不需要再次导入这些模块，因为已在文件顶部导入
+
         main_layout = QVBoxLayout(self)
-        
+
         # 设置样式
-        self.setStyleSheet("""
+        self.setStyleSheet(
+            """
             QWidget {
                 background-color: #F5F5F5;
                 color: #333333;
@@ -112,81 +114,86 @@ class PacketSenderWindow(QDialog):
             QSplitter::handle {
                 background-color: #E0E0E0;
             }
-        """)
-        
+        """
+        )
+
         # 创建工具栏
         tool_bar_layout = QHBoxLayout()
-        
+
         # 添加协议按钮
         add_protocol_button = QPushButton("添加协议")
         if self.packet_sender_controller:
-            add_protocol_button.clicked.connect(self.packet_sender_controller._add_protocol)
+            add_protocol_button.clicked.connect(
+                self.packet_sender_controller._add_protocol
+            )
         tool_bar_layout.addWidget(add_protocol_button)
-        
+
         # 打开按钮
         open_button = QPushButton("打开")
         tool_bar_layout.addWidget(open_button)
-        
+
         # 弹性空间
         tool_bar_layout.addStretch()
-        
+
         # 折叠/展开按钮
         collapse_button = QPushButton("折叠")
         expand_button = QPushButton("展开")
         tool_bar_layout.addWidget(collapse_button)
         tool_bar_layout.addWidget(expand_button)
-        
+
         main_layout.addLayout(tool_bar_layout)
-        
+
         # 创建数据包表格部分
         data_packet_layout = QVBoxLayout()
-        
+
         # 数据包标题和计数布局
         data_packet_header = QHBoxLayout()
         data_packet_label = QLabel("数据包")
         data_packet_header.addWidget(data_packet_label)
-        
+
         data_packet_header.addStretch()
-        
+
         # 添加数据包计数标签
         packet_count_label = QLabel("共 1 个数据包")
         packet_count_label.setStyleSheet("color: #666666; font-weight: normal;")
         data_packet_header.addWidget(packet_count_label)
-        
+
         data_packet_layout.addLayout(data_packet_header)
-        
+
         # 数据包表格
         packet_table = QTableView()
         packet_model = QStandardItemModel()
         packet_model.setHorizontalHeaderLabels(["#", "时间", "源地址", "长度", "协议"])
-        
+
         # 添加示例数据
         row_items = [
-            QStandardItem("1"), 
-            QStandardItem("00:11:22:33:44:55"), 
+            QStandardItem("1"),
+            QStandardItem("00:11:22:33:44:55"),
             QStandardItem("ff:ff:ff:ff:ff:ff"),
             QStandardItem("64"),
-            QStandardItem("Ethernet")
+            QStandardItem("Ethernet"),
         ]
         packet_model.appendRow(row_items)
-        
+
         packet_table.setModel(packet_model)
-        packet_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        packet_table.horizontalHeader().setSectionResizeMode(
+            QHeaderView.ResizeMode.Stretch
+        )
         data_packet_layout.addWidget(packet_table)
-        
+
         # 创建协议详情和Hex视图部分
         detail_hex_splitter = QSplitter(Qt.Orientation.Horizontal)
-        
+
         # 详情部分
         detail_widget = QWidget()
         detail_layout = QVBoxLayout(detail_widget)
         detail_label = QLabel("详情")
         detail_layout.addWidget(detail_label)
-        
+
         # 创建详情树
         detail_tree = QTreeWidget()
         detail_tree.setHeaderLabels(["属性", "值"])
-        
+
         # 添加示例数据
         ethernet_item = QTreeWidgetItem(["Ethernet"])
         source_mac = QTreeWidgetItem(ethernet_item, ["源MAC地址", "值0"])
@@ -194,26 +201,26 @@ class PacketSenderWindow(QDialog):
         field2 = QTreeWidgetItem(ethernet_item, ["字段2", "值2"])
         detail_tree.addTopLevelItem(ethernet_item)
         ethernet_item.setExpanded(True)
-        
+
         detail_layout.addWidget(detail_tree)
-        
+
         # Hex视图部分
         hex_widget = QWidget()
         hex_layout = QVBoxLayout(hex_widget)
-        
+
         # Hex标题和按钮布局
         hex_header = QHBoxLayout()
         hex_label = QLabel("Hex视图")
         hex_header.addWidget(hex_label)
-        
+
         hex_header.addStretch()
-        
+
         # 添加显示按钮
         show_button = QPushButton("显示")
         hex_header.addWidget(show_button)
-        
+
         hex_layout.addLayout(hex_header)
-        
+
         # 创建Hex编辑器
         hex_edit = QTextEdit()
         hex_text = """00 11 22 33 44 55 FF FF FF FF FF FF 08
@@ -221,14 +228,15 @@ class PacketSenderWindow(QDialog):
 00 01 04 00 04 00 00 14 00 00 00 00 00
 00 00 00 00 00 00 00 00 00 00 00 00 00"""
         hex_edit.setText(hex_text)
-        
+
         # 设置等宽字体
         font = QFont("monospace")
         font.setPointSize(10)
         hex_edit.setFont(font)
-        
+
         # 额外的Hex视图样式
-        hex_edit.setStyleSheet("""
+        hex_edit.setStyleSheet(
+            """
             QTextEdit {
                 background-color: #FFFFFF;
                 color: #222222;
@@ -236,37 +244,39 @@ class PacketSenderWindow(QDialog):
                 padding: 4px;
                 font-family: monospace;
             }
-        """)
-        
+        """
+        )
+
         hex_layout.addWidget(hex_edit)
-        
+
         # 添加到水平分割器
         detail_hex_splitter.addWidget(detail_widget)
         detail_hex_splitter.addWidget(hex_widget)
-        
+
         # 创建主分割器
         main_splitter = QSplitter(Qt.Orientation.Vertical)
-        
+
         # 创建数据包容器
         data_packet_widget = QWidget()
         data_packet_widget.setLayout(data_packet_layout)
-        
+
         # 添加到主分割器
         main_splitter.addWidget(data_packet_widget)
         main_splitter.addWidget(detail_hex_splitter)
-        
+
         # 设置分割器初始大小
         main_splitter.setSizes([100, 300])
-        
+
         # 添加到主布局
         main_layout.addWidget(main_splitter)
-        
+
         # 添加底部按钮
         button_layout = QHBoxLayout()
         button_layout.addStretch()
-        
+
         send_button = QPushButton("发送")
-        send_button.setStyleSheet("""
+        send_button.setStyleSheet(
+            """
             QPushButton {
                 background-color: #4285F4;
                 color: white;
@@ -281,31 +291,29 @@ class PacketSenderWindow(QDialog):
             QPushButton:pressed {
                 background-color: #2265D4;
             }
-        """)
+        """
+        )
         if self.packet_sender_controller:
             send_button.clicked.connect(self.packet_sender_controller._send_packet)
         button_layout.addWidget(send_button)
-        
+
         main_layout.addLayout(button_layout)
-        
+
         # 连接折叠/展开按钮
         collapse_button.clicked.connect(lambda: detail_tree.collapseAll())
         expand_button.clicked.connect(lambda: detail_tree.expandAll())
-        
+
         # 保存组件引用
         self.detail_tree = detail_tree
 
     def show_packet_sender(self) -> None:
         """显示发包工具窗口"""
-        if not self.packet_sender_window:
-            self.packet_sender_window = PacketSenderWindow(self, self.packet_sender_controller)
-            
         # 显示发包工具窗口
-        self.packet_sender_window.show()
-        
+        self.show()
+
         # 将窗口提升到前面
-        self.packet_sender_window.raise_()
-        self.packet_sender_window.activateWindow()
+        self.raise_()
+        self.activateWindow()
 
 
 class PkjvizMainWindow(QMainWindow):
@@ -318,7 +326,7 @@ class PkjvizMainWindow(QMainWindow):
         self.app_mode = MODE_OFFLINE
 
         # 发包工具窗口
-        self.packet_sender_window = None
+        self.packet_sender_window: Optional[PacketSenderWindow] = None
 
         # 加载UI
         loader = QUiLoader()
@@ -363,7 +371,7 @@ class PkjvizMainWindow(QMainWindow):
 
         # 数据包发送控制器
         self.packet_sender_controller = PacketSenderController(self)
-        
+
         # 登录控制器
         self.login_controller = LoginController(self)
 
@@ -375,9 +383,7 @@ class PkjvizMainWindow(QMainWindow):
         file_explorer = self.ui.findChild(QTreeView, "fileExplorerTreeView")
         if file_explorer:
             file_explorer.setModel(self.file_model)
-            file_explorer.setRootIndex(
-                self.file_model.index(QDir.homePath())
-            )
+            file_explorer.setRootIndex(self.file_model.index(QDir.homePath()))
 
             # 只显示文件名列
             for i in range(1, self.file_model.columnCount()):
@@ -424,12 +430,12 @@ class PkjvizMainWindow(QMainWindow):
         send_packet_button = self.ui.findChild(QPushButton, "sendPacketButton")
         packet_tool_button = self.ui.findChild(QPushButton, "packetToolButton")
         register_editor_button = self.ui.findChild(QPushButton, "registerEditorButton")
-        
+
         # 查找其他组件
         env_combo_box = self.ui.findChild(QComboBox, "envComboBox")
         file_explorer_tree_view = self.ui.findChild(QTreeView, "fileExplorerTreeView")
         device_list_view = self.ui.findChild(QListWidget, "deviceListView")
-        
+
         # 按钮事件
         if new_button:
             new_button.clicked.connect(self.new_file)
@@ -465,15 +471,15 @@ class PkjvizMainWindow(QMainWindow):
             send_packet_button.clicked.connect(self.send_packet)
         if device_list_view:
             device_list_view.itemDoubleClicked.connect(self.device_double_clicked)
-            
+
         # 发包工具按钮
         if packet_tool_button:
             packet_tool_button.clicked.connect(self.show_packet_sender)
-            
+
         # 寄存器编辑器按钮
         if register_editor_button:
             register_editor_button.clicked.connect(self.show_register_editor)
-            
+
     def set_app_mode(self, mode: int) -> None:
         """设置应用模式
 
@@ -503,13 +509,13 @@ class PkjvizMainWindow(QMainWindow):
             online_button.setEnabled(True)
         if display_button:
             display_button.setEnabled(True)
-            
+
         # 让发包工具按钮在所有模式下都显示
         if packet_tool_button:
             packet_tool_button.setVisible(True)
             # 默认设置为不可点击
             packet_tool_button.setEnabled(False)
-            
+
         # 让寄存器编辑器按钮在所有模式下都显示
         if register_editor_button:
             register_editor_button.setVisible(True)
@@ -540,19 +546,19 @@ class PkjvizMainWindow(QMainWindow):
             # 设置对应按钮状态
             if offline_button:
                 offline_button.setEnabled(False)
-            
+
             # 在离线模式下发包工具按钮不可点击
             if packet_tool_button:
                 packet_tool_button.setEnabled(False)
-            
+
             # 在离线模式下寄存器编辑器按钮可点击
             if register_editor_button:
                 register_editor_button.setEnabled(True)
-            
+
             # 隐藏发包工具
             if hasattr(self, "packet_sender_window") and self.packet_sender_window:
                 self.packet_sender_window.hide()
-                
+
         elif mode == MODE_ONLINE:
             # 在线模式
             self.log_message("切换到在线模式")
@@ -571,11 +577,11 @@ class PkjvizMainWindow(QMainWindow):
             # 显示发包工具按钮并设置为可点击
             if packet_tool_button:
                 packet_tool_button.setEnabled(True)
-            
+
             # 设置对应按钮状态
             if online_button:
                 online_button.setEnabled(False)
-                
+
         elif mode == MODE_DEMO:
             # 演示模式
             self.log_message("切换到演示模式")
@@ -601,15 +607,15 @@ class PkjvizMainWindow(QMainWindow):
             # 设置按钮状态
             if display_button:
                 display_button.setEnabled(False)
-            
+
             # 在演示模式下发包工具按钮不可点击
             if packet_tool_button:
                 packet_tool_button.setEnabled(False)
-            
+
             # 在演示模式下寄存器编辑器按钮不可点击
             if register_editor_button:
                 register_editor_button.setEnabled(False)
-            
+
             # 隐藏发包工具
             if hasattr(self, "packet_sender_window") and self.packet_sender_window:
                 self.packet_sender_window.hide()
@@ -653,10 +659,12 @@ class PkjvizMainWindow(QMainWindow):
 
     def environment_changed(self, index: int) -> None:
         """环境变更事件"""
-        env = self.ui.envComboBox.itemText(index)
-        self.log_message(f"切换环境: {env}")
+        env_combo_box = self.ui.findChild(QComboBox, "envComboBox")
+        if env_combo_box:
+            env = env_combo_box.itemText(index)
+            self.log_message(f"切换环境: {env}")
 
-    def open_selected_file(self, index: int) -> None:
+    def open_selected_file(self, index: QModelIndex) -> None:
         """打开选中的文件"""
         path = self.file_model.filePath(index)
         if os.path.isfile(path):
@@ -665,44 +673,52 @@ class PkjvizMainWindow(QMainWindow):
     def refresh_devices(self) -> None:
         """刷新设备列表"""
         # 如果是离线模式或演示模式，不执行操作
-        if self.app_mode == MODE_OFFLINE or self.app_mode == MODE_DEMO:
+        if self.app_mode in (MODE_OFFLINE, MODE_DEMO):
             return
 
         self.log_message("刷新设备列表")
+        # 获取设备列表控件
+        device_list_view = self.ui.findChild(QListWidget, "deviceListView")
+        if not device_list_view:
+            return
+
         # 清空当前列表
-        self.ui.deviceListView.clear()
+        device_list_view.clear()
         # 获取设备并添加到列表
         count = self.device_model.scan_devices()
         # 从模型中获取设备并添加到列表控件
+
         for i in range(count):
             device_name = self.device_model.data(
-                self.device_model.index(i, 0), Qt.DisplayRole
+                self.device_model.index(i, 0), Qt.ItemDataRole.DisplayRole
             )
             device_data = self.device_model.data(
-                self.device_model.index(i, 0), Qt.UserRole
+                self.device_model.index(i, 0), Qt.ItemDataRole.UserRole
             )
             item = QListWidgetItem(device_name)
-            item.setData(Qt.UserRole, device_data)
-            self.ui.deviceListView.addItem(item)
+            item.setData(Qt.ItemDataRole.UserRole, device_data)
+            device_list_view.addItem(item)
         self.log_message(f"发现 {count} 个设备")
 
     def send_packet(self) -> None:
         """发送数据包
-        
+
         在线模式下，聚焦到编辑区下方的发包工具
         离线模式下，打开发包工具对话框
         """
         # 如果是离线模式或演示模式，不执行操作
-        if self.app_mode == MODE_OFFLINE or self.app_mode == MODE_DEMO:
+        if self.app_mode in (MODE_OFFLINE, MODE_DEMO):
             self.log_message("当前模式不支持连接设备")
             return
-        
+
         # 获取当前选中的设备
         selected_device = None
         device_list_view = self.ui.findChild(QListWidget, "deviceListView")
         if device_list_view and device_list_view.currentItem():
-            selected_device = device_list_view.currentItem().data(Qt.UserRole)
-            
+            selected_device = device_list_view.currentItem().data(
+                Qt.ItemDataRole.UserRole
+            )
+
             # 弹出登录窗口
             if selected_device:
                 self.log_message(f"正在连接设备: {selected_device}...")
@@ -710,14 +726,16 @@ class PkjvizMainWindow(QMainWindow):
                 if login_success:
                     self.log_message(f"成功连接到设备: {selected_device}")
                     # 设置选中设备标签
-                    selected_device_label = self.ui.findChild(QLabel, "selectedDeviceLabel")
+                    selected_device_label = self.ui.findChild(
+                        QLabel, "selectedDeviceLabel"
+                    )
                     if selected_device_label:
                         selected_device_label.setText(f"当前设备: {selected_device}")
-                    
+
                     # 在线模式下，显示发包工具
                     if self.app_mode == MODE_ONLINE:
                         if not hasattr(self.ui, "packetSenderWidget"):
-                            self._create_packet_sender_widget()
+                            self.show_packet_sender()
                         else:
                             self.ui.packetSenderWidget.setVisible(True)
                 else:
@@ -733,11 +751,11 @@ class PkjvizMainWindow(QMainWindow):
     def device_double_clicked(self, item: QListWidgetItem) -> None:
         """设备双击事件"""
         # 如果是离线模式或演示模式，不执行操作
-        if self.app_mode == MODE_OFFLINE or self.app_mode == MODE_DEMO:
+        if self.app_mode in (MODE_OFFLINE, MODE_DEMO):
             return
 
         # 获取设备对象
-        device = item.data(Qt.UserRole)
+        device = item.data(Qt.ItemDataRole.UserRole)
         if device:
             self.log_message(f"正在连接设备: {device}...")
             # 弹出登录窗口
@@ -748,11 +766,11 @@ class PkjvizMainWindow(QMainWindow):
                 selected_device_label = self.ui.findChild(QLabel, "selectedDeviceLabel")
                 if selected_device_label:
                     selected_device_label.setText(f"当前设备: {device}")
-                
+
                 # 在线模式下，显示发包工具
                 if self.app_mode == MODE_ONLINE:
                     if not hasattr(self.ui, "packetSenderWidget"):
-                        self._create_packet_sender_widget()
+                        self.show_packet_sender()
                     else:
                         self.ui.packetSenderWidget.setVisible(True)
             else:
@@ -760,22 +778,26 @@ class PkjvizMainWindow(QMainWindow):
 
     def log_message(self, message: str) -> None:
         """在控制台输出日志
-        
+
         Args:
             message: 日志消息
         """
-        import datetime
+
         time_str = datetime.datetime.now().strftime("[%H:%M:%S]")
-        self.ui.consoleTextEdit.append(f"{time_str} {message}")
+        console = self.ui.findChild(QTextEdit, "consoleTextEdit")
+        if console:
+            console.append(f"{time_str} {message}")
 
     def show_packet_sender(self) -> None:
         """显示发包工具窗口"""
         if not self.packet_sender_window:
-            self.packet_sender_window = PacketSenderWindow(self, self.packet_sender_controller)
-            
+            self.packet_sender_window = PacketSenderWindow(
+                self, self.packet_sender_controller
+            )
+
         # 显示发包工具窗口
         self.packet_sender_window.show()
-        
+
         # 将窗口提升到前面
         self.packet_sender_window.raise_()
         self.packet_sender_window.activateWindow()
